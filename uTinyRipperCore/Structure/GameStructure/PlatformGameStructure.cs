@@ -162,10 +162,47 @@ namespace uTinyRipper
 		{
 			foreach (FileInfo file in root.EnumerateFiles())
 			{
-				if (file.Extension == AssetBundleExtension)
+				if (IsAssetBundleOrUnityFS(file))
 				{
 					string name = Path.GetFileNameWithoutExtension(file.Name).ToLowerInvariant();
 					AddAssetBundle(files, name, file.FullName);
+				}
+			}
+		}
+
+		private bool IsAssetBundleOrUnityFS(FileInfo file)
+		{
+			if (file.Extension == AssetBundleExtension)
+			{
+				return true;
+			}
+
+			FileStream fs = null;
+			try
+			{
+				fs = new FileStream(file.FullName, FileMode.Open);
+				string ufs = "UnityFS";
+				byte[] data = new byte[7];
+				fs.Read(data, 0, data.Length);
+				for (int idx = 0; idx < data.Length; idx++)
+				{
+					if (ufs[idx] != data[idx])
+					{
+						return false;
+					}
+				}
+				Console.WriteLine(file.FullName);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+			finally
+			{
+				if(fs != null)
+				{
+					fs.Dispose();
 				}
 			}
 		}
