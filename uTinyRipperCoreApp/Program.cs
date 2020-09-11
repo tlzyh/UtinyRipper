@@ -247,7 +247,10 @@ namespace uTinyRipper
 
 		public static void Main(string[] args)
 		{
-			
+			string inputPath = "F:\\Bladed";
+			string outputPath = "";
+			Program p = new Program(inputPath, outputPath);
+			p.Parse();
 		}
 
 	}

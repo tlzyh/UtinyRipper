@@ -82,20 +82,25 @@ namespace uTinyRipper
 		{
 			if (BundleFile.IsBundleFile(stream))
 			{
+				Console.WriteLine("BundleFile Scheme:" + filePath);
 				return BundleFile.ReadScheme(stream, filePath, fileName);
 			}
 			if (ArchiveFile.IsArchiveFile(stream))
 			{
+				Console.WriteLine("ArchiveFile Scheme:" + filePath);
 				return ArchiveFile.ReadScheme(stream, filePath, fileName);
 			}
 			if (WebFile.IsWebFile(stream))
 			{
+				Console.WriteLine("WebFile Scheme:" + filePath);
 				return WebFile.ReadScheme(stream, filePath);
 			}
 			if (SerializedFile.IsSerializedFile(stream))
 			{
+				Console.WriteLine("SerializedFile Scheme:" + filePath);
 				return SerializedFile.ReadScheme(stream, filePath, fileName);
 			}
+			Console.WriteLine("ResourceFile Scheme:" + filePath);
 			return ResourceFile.ReadScheme(stream, filePath, fileName);
 		}
 
